@@ -8,7 +8,7 @@ function App() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: ""
+    phone: "",
   });
 
   const fetchCustomers = async () => {
@@ -33,54 +33,82 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Customer Dashboard</h2>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl p-6">
 
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-          required
-        />
-        <input
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          required
-        />
-        <input
-          placeholder="Phone"
-          value={form.phone}
-          onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          required
-        />
-        <button type="submit">Add Customer</button>
-      </form>
+        <h1 className="text-2xl font-bold mb-4 text-center">
+          Customer Dashboard
+        </h1>
 
-      <table border="1" cellPadding="10" style={{ marginTop: "20px" }}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
+          <input
+            className="border p-2 rounded-lg"
+            placeholder="Name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
+          <input
+            className="border p-2 rounded-lg"
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            required
+          />
+          <input
+            className="border p-2 rounded-lg"
+            placeholder="Phone"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            required
+          />
+          <button className="bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Add
+          </button>
+        </form>
 
-        <tbody>
-          {customers.map((c) => (
-            <tr key={c.id}>
-              <td>{c.name}</td>
-              <td>{c.email}</td>
-              <td>{c.phone}</td>
-              <td>
-                <button onClick={() => deleteCustomer(c.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border rounded-lg overflow-hidden">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="p-3 text-left">Name</th>
+                <th className="p-3 text-left">Email</th>
+                <th className="p-3 text-left">Phone</th>
+                <th className="p-3 text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {customers.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="text-center p-4 text-gray-500">
+                    No customers found
+                  </td>
+                </tr>
+              ) : (
+                customers.map((c) => (
+                  <tr key={c.id} className="border-t hover:bg-gray-50">
+                    <td className="p-3">{c.name}</td>
+                    <td className="p-3">{c.email}</td>
+                    <td className="p-3">{c.phone}</td>
+                    <td className="p-3 text-center">
+                      <button
+                        onClick={() => deleteCustomer(c.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   );
 }
